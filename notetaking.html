@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title> Take Note </title>
+	</head>
+	<body>
+		<a href="/list">Back to List</a>
+		<center><textarea style="width: 80vw; height: 90vh;" id="note"></textarea></center>
+		<input type="button" id="commitButton" value="Commit" />
+		<input type="button" id="deleteButton" value="Delete" />
+		<div id="submit"></div>
+		<script>
+			var note = window.location.hash;
+			const xhr = new XMLHttpRequest();
+			xhr.open("GET", "/api/readNote/" + localStorage.getItem("token") + "/" + note.toString().split('#')[1], true);
+			xhr.onload = () => {
+				var noteText = document.getElementById("note");
+				noteText.value = xhr.responseText.toString().replace(/~n/g, '\n');
+			};
+			xhr.send();
+
+			var commitButton = document.getElementById("commitButton");
+			var deleteButton = document.getElementById("deleteButton");
+			deleteButton.onclick = () => {
+				console.log("click");
+				var form = document.createElement("form");
+				var token = document.createElement("input");
+				var noteName = document.createElement("input");
+				var deleteL = document.createElement("input");
+				var submitButton = document.createElement("input");
+				form.method = "post";
+				token.type="text";
+				token.name="token";
+				token.value=localStorage.getItem("token");
+				noteName.type = "text";
+				noteName.name = "noteName";
+				noteName.value = window.location.hash;
+				deleteL.type = "text";
+				deleteL.name = "deleteL";
+				deleteL.value = "delete";
+				submitButton.type="submit";
+				form.appendChild(token);
+				form.appendChild(noteName);
+				form.appendChild(deleteL);
+				form.appendChild(submitButton);
+				document.getElementById("submit").appendChild(form);
+				submitButton.click();
+			};
+				
+			commitButton.onclick = () => {
+				console.log("upload");
+				var noteText = document.getElementById("note").value.toString().replace(/\n/g, "~n");
+				var form = document.createElement("form");
+				var text = document.createElement("input");
+				var noteName = document.createElement("input");
+				var token = document.createElement("input");
+				var submitButton = document.createElement("input");
+				form.method = "post";
+				text.type = "text";
+				text.name = "text";
+				text.value = noteText;
+				noteName.type = "text";
+				noteName.name = "noteName";
+				noteName.value = window.location.hash.toString();
+				token.type = "text";
+				token.name = "token";
+				token.value = localStorage.getItem("token");
+				submitButton.type="submit";
+				form.appendChild(text);
+				form.appendChild(noteName);
+				form.appendChild(token);
+				form.appendChild(submitButton);
+				document.getElementById("submit").appendChild(form);
+				submitButton.click();
+			};
+		</script>
+	</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>Note List</title>
+	</head>
+	<body id="body">
+		<ul id="list">
+		</ul>
+		<script>
+			const xhr = new XMLHttpRequest();
+			xhr.open("GET", "/api/notelist/" + localStorage.getItem("token"), true);
+			xhr.onload = () => {
+				console.log("rec");
+				console.log(xhr.responseText.toString());
+				const notes = xhr.responseText.toString().split('\n');
+				notes.forEach((note) => {
+					if(note != "") {
+						var thisNote = document.createElement("li");
+						var noteLink = document.createElement("a");
+						noteLink.innerText = note;
+						noteLink.href = "/notetaking#" + note;
+						thisNote.appendChild(noteLink);
+						var theList = document.getElementById("list");
+						theList.appendChild(thisNote);
+					}
+				});
+			};
+			xhr.send();
+			var body = document.getElementById("body");
+			var addButton = document.createElement("input");
+			addButton.type = "button";
+			addButton.value = "Create a New Note";
+			addButton.onclick = () => {
+				var noteName = document.createElement("input");
+				noteName.type = "text";
+				var reminder = document.createElement("a");
+				reminder.innerText = "Note name: ";
+				var commitButton = document.createElement("input");
+				commitButton.type = "button";
+				commitButton.value = "Confirm";
+				addButton.style.display = "none";
+				commitButton.onclick = () => {
+					window.location = "/notetaking#" + noteName.value;
+				};
+				body.appendChild(reminder);
+				body.appendChild(noteName);
+				body.appendChild(commitButton);
+			};
+			body.appendChild(addButton);
+		</script>
+	</body>
+</html>
+			

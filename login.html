@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>Login</title>
+	</head>
+	<body>
+		<form method="post">
+			UserName: <input type="text" name="name" /><br/>
+			Password: <input type="password" name="passwd" /><br/>
+			<input type="submit">
+		</form>
+		<p id="token">[Noinfo]</p>
+		<a href="/list">Go to List</a>
+		<script>
+			var cookies = document.cookie.toString().split('; ');
+			cookies.forEach((cookie) => {
+				if(cookie.split('=')[0] == "token") {
+					document.getElementById("token").innerText = cookie.split('=')[1];
+					localStorage.setItem("token", cookie.split('=')[1]);
+				}
+			});
+		</script>
+	</body>
+</html>
