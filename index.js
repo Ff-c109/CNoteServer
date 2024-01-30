@@ -11,9 +11,7 @@ const spawn = require("child_process").spawn;
 var http = require('http');
 var querystring = require('querystring');
 var fs = require('fs');
- 
-var postHTML = fs.readFileSync("login.html");
- 
+
 http.createServer(function (req, res) {
 	if(req.url == "/") {
 		res.writeHead(302, {'Location': '/login'});
@@ -29,7 +27,7 @@ http.createServer(function (req, res) {
     body = querystring.parse(body);
     // 设置响应头部信息及编码
     res.setHeader('Content-Type', 'text/html; charset=utf8');
- 
+
     if(body.name && body.passwd) { // 输出提交的数据
 	const c_listener = spawn("./cmain");
 
@@ -37,15 +35,24 @@ http.createServer(function (req, res) {
 		console.log(data.toString());
 		if(data.toString() == "true" || data.toString() == "true\n")
 		{
-			var token = "";
-			for(var i = 0; i < 24; i++) {
-				var tokenC = Math.random();
-				tokenC = Math.floor(tokenC * 36);
-				if(tokenC <= 9)
-					token += tokenC.toString();
-				else
-					token += String.fromCharCode(65+(tokenC - 10));
+			do {
+				var token = "";
+				for(var i = 0; i < 24; i++) {
+					var tokenC = Math.random();
+					tokenC = Math.floor(tokenC * 36);
+					if(tokenC <= 9)
+						token += tokenC.toString();
+					else
+						token += String.fromCharCode(65+(tokenC - 10));
+				}
+				var exist = false;
+				tokens.forEach(t => {
+					if(t == token)
+						exist=true;
+				});
+				if(!exist) break;
 			}
+			while(true);
 
 			tokens.push({"token" : token, "name" : body.name});
 			console.log(token);
@@ -59,9 +66,14 @@ http.createServer(function (req, res) {
 	    c_listener.stdin.write("auth\n" + body.name + " " + body.passwd + "\n");
 
     } else {  // 输出表单
-        res.write(postHTML);res.end();
+	    fs.readFile("login.html", (err, data) => {
+		    if(err)
+			    console.log(err);
+		    else
+			    res.end(data.toString());
+	    });
     }
-    
+
   });
 	}
 	else if(req.url == "/list") {
@@ -156,7 +168,7 @@ http.createServer(function (req, res) {
 			}
 		});
 
-		
+
 	}
 	else if(req.url.toString().split('/')[1] == "api") {
 		var splitedURL = req.url.toString().split('/');
@@ -201,7 +213,11 @@ http.createServer(function (req, res) {
 		}
 	}
 	else {
-		console.log("undef");
-		res.end();
+		fs.readFile("." + req.url.toString(), (err, d) => {
+			if(err)
+				res.end(err.toString());
+			else
+				res.end(d);
+		});
 	}
 }).listen(3000);

@@ -1,0 +1,86 @@
+div.addButtonCC {
+	position: relative;
+}
+div.addButtonC {
+	position: absolute;
+	display: inline-block;
+	left: 3rem;
+	right: 3rem;
+	height: 2rem;
+	border: solid 1px #000;
+	text-align: center;
+	vertical-align: middle;
+	background-color: #1f609d;
+}
+input.addButton {
+	background: transparent;
+	border: none;
+	height: 2rem;
+	font-size: 1.2rem;
+	font-weight: 700;
+	color: #EFEFEF;
+}
+svg.plus {
+	position: absolute;
+	left: 1rem;
+	top: 0px;
+	width: 2rem;
+	height: 2rem;
+	filter: invert(1);
+}
+div.commitC {
+	position: absolute;
+	bottom: 0px;
+	left: 4rem;
+	right: 4rem;
+	display: none;
+}
+svg.plus2 {
+	position: absolute;
+	right: 0px;
+	bottom: 4px;
+	width: 2rem;
+	height: 2rem;
+	filter: invert(1);
+}
+input.noteName {
+	position: absolute;
+	right: 3rem;
+	left: 0px;
+	bottom: 4px;
+	height: 1.7rem;
+	font-size: 18px;
+}
+input.confirm {
+	position: absolute;
+	right: 0px;
+	bottom: 4px;
+	width: 2rem;
+	height: 2rem;
+	background: transparent;
+	border: none;
+}
+h1.pageName {
+	position: absolute;
+	left: 2rem;
+	font-size: 33px;
+}
+div.pageName {
+	position: relative;
+	height: 4rem;
+}
+ul.list {
+	font-size: 28px;
+}
+li {
+	background-color: #d3e3fd;
+	height: 2.3rem;
+	vertical-align: middle;
+}
+div.list {
+	text-align: center;
+}
+a {
+	text-decoration: none;
+	color: #333333;
+}

@@ -2,16 +2,24 @@
 <html>
 	<head>
 		<meta charset="utf-8" />
+		<link rel="stylesheet" href="/css/login.css">
 		<title>Login</title>
 	</head>
 	<body>
-		<form method="post">
-			UserName: <input type="text" name="name" /><br/>
-			Password: <input type="password" name="passwd" /><br/>
-			<input type="submit">
-		</form>
-		<p id="token">[Noinfo]</p>
-		<a href="/list">Go to List</a>
+		<h1 class="pageName">Login</h1>
+		<hr class="pageName"/>
+		<div class="formBG">
+		<div class="form">
+			<form method="post">
+				UserName: <input type="text" name="name" /><p></p>
+				Password: <input type="password" name="passwd" /><p></p>
+				<input type="submit">
+			</form>
+		</div>
+		</div>
+		<p class="tokenL">Your token:</p>
+		<p id="token" class="token">[NULL]</p>
+		<a class="link" href="/list">Go to List</a>
 		<script>
 			var cookies = document.cookie.toString().split('; ');
 			cookies.forEach((cookie) => {

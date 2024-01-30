@@ -1,0 +1,48 @@
+h1.pageName {
+	position: absolute;
+	left: 20px;
+	top: 0.2rem;
+	font-size: 33px;
+}
+
+hr.pageName {
+	position: absolute;
+	font-size: 22px;
+	top: 4rem;
+	left: 0px;
+	right: 0px;
+}
+div.form {
+	position: absolute;
+	font-size: 18px;
+	left: 20px;
+	top: 1rem;
+}
+div.formBG {
+	position: relative;
+	font-size: 18px;
+	top: 6.3rem;
+	left: 20px;
+	border: solid 1px #000;
+	display: inline-block;
+	width: 22rem;
+	height: 8.7rem;
+}
+p.token {
+	position: absolute;
+	font-size: 18px;
+	left: 9rem;
+	top: 17rem;
+}
+p.tokenL {
+	position: absolute;
+	font-size: 18px;
+	left: 3rem;
+	top: 17rem;
+}
+a.link {
+	position: absolute;
+	font-size: 18px;
+	left: 40px;
+	top: 20rem;
+}
