@@ -16,14 +16,25 @@ namespace markdown_decode {
         }
         std::istringstream mdStream(markdown);
         std::string line;
-        std::string html = "";
+        std::string html = "<!DOCTYPE html>\n<html>\n";
+        html += "<head>\n";
+        html += " <meta charset=\"UTF-8\">\n";
+        html += "</head>\n";
+        html += "<body>\n";
 
         string buffer = "";
         bool bufferEmpty = true;
 
         while (std::getline(mdStream, line)) {
             if(!bufferEmpty) {
-                if (line[0] == '=') {
+                if(buffer[0] == ' ' || buffer[0] == '\n') {
+                    html += "<p>";
+                    html += buffer;
+                    html += "</p>\n";
+                    buffer = "";
+                    bufferEmpty = true;
+                }
+                else if (line[0] == '=') {
                     bool isLine = true;
                     for(const auto c : line) {
                         if(c != '=')
@@ -41,7 +52,7 @@ namespace markdown_decode {
                     }
                     continue;
                 }
-                if (line[0] == '-') {
+                else if (line[0] == '-') {
                     bool isLine = true;
                     for(const auto c : line) {
                         if(c != '-')
@@ -94,6 +105,8 @@ namespace markdown_decode {
                 bufferEmpty = false;
             }
         }
+
+        html += "</body>\n</html>\n";
 
         return html;
     }
