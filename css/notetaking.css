@@ -13,6 +13,7 @@ svg.back {
 	width: 2rem;
 	height: 2rem;
 	filter: invert(1);
+
 }
 div.title {
 	position: absolute;
@@ -80,12 +81,12 @@ svg.showMarkdown {
 	position: absolute;
 	height: 90%;
 	left: 90%;
-	filter: invert(1);
 }
 div.showMarkdown {
 	position:relative;
 	height: 5rem;
 	width: 100%;
+
 }
 input.showMarkdown {
 	position: absolute;
@@ -94,4 +95,7 @@ input.showMarkdown {
 	width: 32%;
 	background: transparent;
 	font-size: 18px;
+	background-color: #1e5ec6;
+	color: #b8f2c0;
+	border: none;
 }
