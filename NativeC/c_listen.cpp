@@ -18,6 +18,9 @@ namespace note {
 	string onReadNote(string arg);
 	string onDeleteNote(string arg);
 }
+namespace markdown_decode {
+	string markdownToHTML(string arg);
+}
 
 namespace c_listen {
 	map<string, void*> funclist;
@@ -52,6 +55,7 @@ namespace c_listen {
 		funclist["writenote"] = (void*)note::onWriteNote;
 		funclist["readnote"] = (void*)note::onReadNote;
 		funclist["deletenote"] = (void*)note::onDeleteNote;
+		funclist["decmarkdown"] = (void*)markdown_decode::markdownToHTML;
 	}
 }
 

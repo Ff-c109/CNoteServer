@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "g++ NativeC/auth.cpp NativeC/c_listen.cpp NativeC/main.cpp NativeC/note.cpp -o cmain && node index.js"
+    "test": "g++ NativeC/auth.cpp NativeC/c_listen.cpp NativeC/main.cpp NativeC/note.cpp NativeC/markdown_decode.cpp -o cmain && node index.js"
   },
   "author": "Ff_c109",
   "license": "AGPL-3.0"

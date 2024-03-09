@@ -175,7 +175,89 @@
        sodipodi:nodetypes="cc" />
   </g>
 </svg>
-
+		</div>
+		<div id="showMarkdown" class="showMarkdown">
+		<input type="button" value="Show Markdown" class="showMarkdown" id="markdown" />
+<svg class="showMarkdown"
+   width="100"
+   height="100"
+   viewBox="0 0 26.458334 26.458333"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   sodipodi:docname="markdown.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="false"
+     units="px"
+     width="100px"
+     inkscape:zoom="11.623035"
+     inkscape:cx="60.397305"
+     inkscape:cy="58.289422"
+     inkscape:window-width="1920"
+     inkscape:window-height="499"
+     inkscape:window-x="0"
+     inkscape:window-y="56"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2" />
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="图层 2">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:13.3127px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.332818"
+       x="5.3184266"
+       y="21.884317"
+       id="text948"
+       transform="scale(1.2578946,0.79497915)"><tspan
+         sodipodi:role="line"
+         id="tspan946"
+         style="stroke-width:0.332818"
+         x="5.3184266"
+         y="21.884317">M</tspan></text>
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer3"
+     inkscape:label="图层 3">
+    <path
+       style="color:#000000;fill:#000000;stroke:#fffffe;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1;-inkscape-stroke:none"
+       d="m 13.394531,7.0253906 c -0.800965,4.317e-4 -1.449865,0.6502067 -1.449218,1.4511719 V 18.730469 c 4.31e-4,0.800202 0.649016,1.448787 1.449218,1.449218 0.800965,6.48e-4 1.45074,-0.648253 1.451172,-1.449218 V 8.4765625 C 14.846351,7.674834 14.196259,7.0247423 13.394531,7.0253906 Z"
+       id="path3438"
+       sodipodi:nodetypes="ccccccc" />
+  </g>
+  <g
+     inkscape:label="图层 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:#000000;fill-opacity:0;stroke:#000000;stroke-width:1.765;stroke-linecap:round;stroke-linejoin:round"
+       id="rect64"
+       width="17.412052"
+       height="14.759254"
+       x="4.6953158"
+       y="6.3479571" />
+    <path
+       style="color:#000000;fill:#000000;stroke:#fffffe;stroke-width:0.893728;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1;-inkscape-stroke:none"
+       d="m 18.473931,12.674096 c -0.343119,0.02216 -0.663366,0.179774 -0.890237,0.438136 l -4.269736,3.491732 -3.9432253,-3.651717 c -0.5249634,-0.486257 -1.3446879,-0.454998 -1.8310948,0.06983 -0.4862588,0.524962 -0.4550014,1.344688 0.069822,1.831095 l 4.9189951,4.555918 c 0.534529,0.495368 1.372264,0.452769 1.853787,-0.09427 l 5.146007,-4.490193 c 0.473463,-0.536936 0.421877,-1.356055 -0.115207,-1.829349 -0.258011,-0.227445 -0.595856,-0.342991 -0.939112,-0.321184 z"
+       id="path3177"
+       sodipodi:nodetypes="ccccccccccc" />
+  </g>
+</svg>
 		</div>
 		<div id="submit"></div>
 		</div>
@@ -243,6 +325,34 @@
 				document.getElementById("submit").appendChild(form);
 				submitButton.click();
 			};
+			var markdownBt = document.getElementById("markdown");
+			markdownBt.onclick = () => {
+               console.log("Show Markdown");
+               var noteText = document.getElementById("note").value.toString().replace(/\n/g, "~n");
+               var form = document.createElement("form");
+               var text = document.createElement("input");
+               var noteName = document.createElement("input");
+               var token = document.createElement("input");
+               var submitButton = document.createElement("input");
+               form.method = "post";
+               form.action = "/api/decMD/" + localStorage.getItem("token");
+               text.type = "text";
+               text.name = "text";
+               text.value = noteText;
+               noteName.type = "text";
+               noteName.name = "noteName";
+               noteName.value = window.location.hash.toString();
+               token.type = "text";
+               token.name = "token";
+               token.value = localStorage.getItem("token");
+               submitButton.type="submit";
+               form.appendChild(text);
+               form.appendChild(noteName);
+               form.appendChild(token);
+               form.appendChild(submitButton);
+               document.getElementById("submit").appendChild(form);
+               submitButton.click();
+            };
 		</script>
 	</body>
 </html>

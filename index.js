@@ -13,6 +13,8 @@ var querystring = require('querystring');
 var fs = require('fs');
 
 http.createServer(function (req, res) {
+
+	// Acc Manage
 	if(req.url == "/") {
 		res.writeHead(302, {'Location': '/login'});
 		res.end();
@@ -23,12 +25,10 @@ http.createServer(function (req, res) {
     body += chunk;
   });
   req.on('end', function () {
-    // 解析参数
     body = querystring.parse(body);
-    // 设置响应头部信息及编码
     res.setHeader('Content-Type', 'text/html; charset=utf8');
 
-    if(body.name && body.passwd) { // 输出提交的数据
+    if(body.name && body.passwd) {
 	const c_listener = spawn("./cmain");
 
 	c_listener.stdout.on("data", (data) => {
@@ -46,6 +46,7 @@ http.createServer(function (req, res) {
 						token += String.fromCharCode(65+(tokenC - 10));
 				}
 				var exist = false;
+				// Token Match
 				tokens.forEach(t => {
 					if(t == token)
 						exist=true;
@@ -65,7 +66,8 @@ http.createServer(function (req, res) {
 
 	    c_listener.stdin.write("auth\n" + body.name + " " + body.passwd + "\n");
 
-    } else {  // 输出表单
+    } else {
+		// Login Get Method
 	    fs.readFile("login.html", (err, data) => {
 		    if(err)
 			    console.log(err);
@@ -76,6 +78,7 @@ http.createServer(function (req, res) {
 
   });
 	}
+//# List
 	else if(req.url == "/list") {
 		fs.readFile("list.html", (err, data) => {
 			if(err)
@@ -86,6 +89,7 @@ http.createServer(function (req, res) {
 			}
 		});
 	}
+//# NoteTaking
 	else if(req.url.toString().split('#')[0] == "/notetaking") {
 		var body = "";
 		req.on('data', function(chunk) {
@@ -167,9 +171,8 @@ http.createServer(function (req, res) {
 				});
 			}
 		});
-
-
 	}
+//# API Funcs
 	else if(req.url.toString().split('/')[1] == "api") {
 		var splitedURL = req.url.toString().split('/');
 		var pageName = splitedURL[2];
@@ -184,10 +187,11 @@ http.createServer(function (req, res) {
 		});
 		if (!avaliable) {
 			console.log(token);
-			res.write("This is an API Page.");
+			res.write("Sorry, Token invalid. Try login again?");
 			res.end();
 		}
 		else {
+//# API Pages
 			if(pageName == "notelist") {
 				const cmain = spawn("./cmain");
 				cmain.stdout.on("data", (data) => {
@@ -209,6 +213,23 @@ http.createServer(function (req, res) {
 				cmain.stdin.write(" ");
 				cmain.stdin.write(splitedURL[4]);
 				cmain.stdin.write("\n");
+			}
+			else if(pageName == "decMD") {
+				const cmain = spawn("./cmain");
+				cmain.stdout.on("data", (data)=> {
+					res.write(data.toString());
+				});
+				cmain.on("exit", () => res.end());
+				cmain.stdin.write("decmarkdown\n");
+				var body = "";
+				req.on('data', function(chunk) {
+					body += chunk;
+				});
+				req.on('end', () => {
+					body = querystring.parse(body);
+					cmain.stdin.write(body.text);
+					cmain.stdin.write("\n");
+				});
 			}
 		}
 	}

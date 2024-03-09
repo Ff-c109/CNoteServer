@@ -76,3 +76,22 @@ svg.delete {
 	left: 50%;
 	filter: invert(1);
 }
+svg.showMarkdown {
+	position: absolute;
+	height: 90%;
+	left: 90%;
+	filter: invert(1);
+}
+div.showMarkdown {
+	position:relative;
+	height: 5rem;
+	width: 100%;
+}
+input.showMarkdown {
+	position: absolute;
+	height: 90%;
+	right: 0px;
+	width: 32%;
+	background: transparent;
+	font-size: 18px;
+}
