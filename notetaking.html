@@ -66,6 +66,7 @@
 		</a>
 		<div class="content">
 		<textarea id="note"></textarea>
+		<iframe id="markdownDecRec" name="markdownDecRec"></iframe>
 		<div class="commitArea">
 		<input type="button" class="commitButton" id="commitButton" value="Commit" />
 		<input type="button" class="deleteButton" id="deleteButton" value="Delete" />
@@ -328,8 +329,8 @@
 				submitButton.click();
 			};
 			var markdownBt = document.getElementById("markdown");
-			markdownBt.onclick = () => {
-               console.log("Show Markdown");
+			function loadMarkdown() {
+               document.getElementById("submit").innerHTML = "";
                var noteText = document.getElementById("note").value.toString().replace(/\n/g, "~n");
                var form = document.createElement("form");
                var text = document.createElement("input");
@@ -338,6 +339,8 @@
                var submitButton = document.createElement("input");
                form.method = "post";
                form.action = "/api/decMD/" + localStorage.getItem("token");
+               form.target = "markdownDecRec";
+               form.style.display = "none";
                text.type = "text";
                text.name = "text";
                text.value = noteText;
@@ -354,6 +357,12 @@
                form.appendChild(submitButton);
                document.getElementById("submit").appendChild(form);
                submitButton.click();
+               setTimeout(loadMarkdown, 300);
+            }
+            markdownBt.onclick = () => {
+               document.getElementById("note").style.width="45%";
+               document.getElementById("markdownDecRec").style.display = "initial";
+               loadMarkdown();
             };
 		</script>
 	</body>
