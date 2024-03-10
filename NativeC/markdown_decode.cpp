@@ -85,6 +85,7 @@ namespace markdown_decode {
                 while (line[count] == '#') { count++; }
                 html += "<h" + std::to_string(count) + ">" + line.substr(count) + "</h" + std::to_string(count) + ">\n";
             }
+            //分割线
             else if (line[0] == '-') {
                 bool isLine = true;
                 for(const auto c : line) {
@@ -99,11 +100,68 @@ namespace markdown_decode {
                     html += "\n";
                 }
             }
-            // 段落语法
+            // 一般段落
             else {
-                buffer += line;
+                string buffer2 = line;
                 bufferEmpty = false;
+                // * 加粗与倾斜
+                int count = 0;
+                bool end = false;
+                bool DUOC = false;
+                bool start = true;
+                for(const auto c : buffer2) {
+                    if(c == '*') {
+                        if(end) {
+                            count--;
+                            if(count == 0) {
+                                end = false;
+                                if(DUOC)
+                                    buffer += "</b>";
+                                else
+                                    buffer += "</i>";
+                            }
+                        }
+                        else {
+                            count ++;
+                            start = true;
+                        }
+                    }
+                    else if(count == 1) {
+                        if(start) {
+                            buffer += "<i>";
+                            buffer += c;
+                            DUOC = false;
+                            start = false;
+                        }
+                        else
+                            buffer += c;
+                        end = true;
+                    }
+                    else if(count == 2) {
+                        if(start) {
+                            buffer += "<b>";
+                            buffer += c;
+                            DUOC = true;
+                            start = false;
+                        }
+                        else
+                            buffer += c;
+                        end = true;
+                    }
+                    else {
+                        buffer += c;
+                    }
+                }
             }
+        }
+
+        //清空缓存区
+        if (!bufferEmpty) {
+            html += "<p>";
+            html += buffer;
+            html += "</p>";
+            buffer = "";
+            bufferEmpty = true;
         }
 
         html += "</body>\n</html>\n";
