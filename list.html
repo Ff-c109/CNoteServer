@@ -128,7 +128,7 @@
 					if(note != "") {
 						var thisNote = document.createElement("li");
 						var noteLink = document.createElement("a");
-						noteLink.innerText = note;
+						noteLink.innerText = decodeURI(note);
 						noteLink.href = "/notetaking#" + note;
 						thisNote.appendChild(noteLink);
 						var line = document.createElement("hr");
