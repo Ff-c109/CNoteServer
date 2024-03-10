@@ -127,7 +127,13 @@ http.createServer(function (req, res) {
 					cmain.stdin.write(" ");
 					cmain.stdin.write(body.noteName.split('#')[1]);
 					cmain.stdin.write(" ");
-					cmain.stdin.write(body.text);
+					// 去掉末尾的一大堆换行符
+					var i = body.text.length - 1;
+					for(; i >= 0; i-=2) {
+						if(body.text.substr(i - 1, 2) != "~n")
+							break;
+					}
+					cmain.stdin.write(body.text.substr(0, i + 1));
 					cmain.stdin.write("\n");
 				}
 			}
