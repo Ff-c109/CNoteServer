@@ -85,7 +85,7 @@ namespace markdown_decode {
                 while (line[count] == '#') { count++; }
                 html += "<h" + std::to_string(count) + ">" + line.substr(count) + "</h" + std::to_string(count) + ">\n";
             }
-            //分割线
+            // 分割线
             else if (line[0] == '-') {
                 bool isLine = true;
                 for(const auto c : line) {
@@ -99,17 +99,29 @@ namespace markdown_decode {
                     html += "<hr/>";
                     html += "\n";
                 }
+                // 不是横线，那么应该就是列表了
+                // 等一下，这里不是很有思路，先放着
+                else {
+                    html += "<li>";
+                    html += line;
+                    html += "</li>";
+                }
             }
             // 一般段落
             else {
                 string buffer2 = line;
                 bufferEmpty = false;
-                // * 加粗与倾斜
+                //加粗和倾斜使用
                 int count = 0;
                 bool end = false;
                 bool DUOC = false;
                 bool start = true;
+                //记号笔使用
+                int count2 = 0;
+                bool end2 = false;
+                bool start2 = true;
                 for(const auto c : buffer2) {
+                    // 加粗与倾斜
                     if(c == '*') {
                         if(end) {
                             count--;
@@ -147,6 +159,30 @@ namespace markdown_decode {
                         else
                             buffer += c;
                         end = true;
+                    }
+                    // 记号笔
+                    else if(c == '=') {
+                        if(end2) {
+                            count2--;
+                            if(count2 == 0) {
+                                end2 = false;
+                                buffer += "</a>";
+                            }
+                        }
+                        else {
+                            count2++;
+                            start2 = true;
+                        }
+                    }
+                    else if(count2 == 2) {
+                        if(start2) {
+                            start2 = false;
+                            end2 = true;
+                            buffer += "<a style=\"background-color: #FFFF00\">";
+                            buffer += c;
+                        }
+                        else
+                            buffer += c;
                     }
                     else {
                         buffer += c;
